@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Keletso Mashabela — Data Scientist Portfolio</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<!-- AOS (Animate on Scroll) -->
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+
+<style>
+  :root{
+    --bg1:#001633;
+    --bg2:#003a66;
+    --bg3:#0a0a0a;
+    --glass: rgba(10,15,25,.55);
+    --glass-strong: rgba(10,15,25,.7);
+    --cyan:#0ff;
+    --cyan-soft:#7efaff;
+    --text:#e6f2ff;
+    --muted:#a8c3e6;
+    --accent:#48b3ff;
+    --outline: rgba(0,255,255,.18);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Inter',system-ui,Segoe UI,Roboto,Arial,sans-serif;
+    color:var(--text); background:#0a0f1a; overflow-x:hidden;
+  }
+
+  /* Animated blue gradient + particles bg */
+  .gradient{
+    position:fixed; inset:0; z-index:-3;
+    background: linear-gradient(-45deg, #06112a, #072a5a, #0a3d7a, #095fb3);
+    background-size: 300% 300%;
+    animation: swirl 18s ease-in-out infinite;
+    filter: saturate(1.05);
+  }
+  @keyframes swirl{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
+  #particles-js{position:fixed; inset:0; z-index:-2}
+
+  /* Layout */
+  .container{width:min(1200px, 90vw); margin:0 auto; padding:4rem 0}
+  section{padding:3.5rem 0}
+
+  /* Header / Intro */
+  .intro{
+    text-align:center; padding-top:6rem; padding-bottom:2rem;
+  }
+  .intro h1{
+    font-size: clamp(2rem, 3.5vw + 1rem, 3.25rem);
+    font-weight:800; letter-spacing:.5px;
+    text-shadow: 0 2px 24px rgba(0,255,255,.15);
+  }
+  .intro p{
+    margin-top:.75rem; color:var(--muted);
+    font-size: clamp(1rem, 1.2vw + .5rem, 1.15rem);
+  }
+
+  /* Neo tabs (pills) */
+  .pills{
+    margin-top:1.25rem; display:flex; gap:.5rem; justify-content:center; flex-wrap:wrap
+  }
+  .pill{
+    border:1px solid var(--outline); color:#ccf6ff; padding:.55rem .9rem;
+    border-radius:999px; font-size:.9rem; backdrop-filter: blur(8px);
+    background:linear-gradient( to bottom, rgba(0,35,60,.35), rgba(0,25,45,.25));
+  }
+
+  /* Glass panels instead of many cards */
+  .panel{
+    background:linear-gradient( to bottom right, var(--glass), rgba(0,25,45,.45));
+    border:1px solid var(--outline); border-radius:16px;
+    padding:1.5rem; box-shadow: 0 10px 40px rgba(0,0,0,.35);
+    backdrop-filter: blur(10px);
+  }
+  .panel + .panel{margin-top:1rem}
+
+  .section-title{
+    font-size:1.35rem; letter-spacing:.3px; margin-bottom:1rem; color:#d9f4ff;
+    display:flex; align-items:center; gap:.6rem;
+  }
+  .section-title span{color:var(--cyan)}
+  .grid{
+    display:grid; gap:1rem;
+  }
+  @media (min-width: 860px){
+    .grid-2{ grid-template-columns: 1.2fr 1fr; }
+    .grid-3{ grid-template-columns: repeat(3, 1fr); }
+    .grid-4{ grid-template-columns: 1.2fr 1fr 1fr 1fr; }
+  }
+
+  /* Skills lists */
+  .skills{
+    display:grid; gap:1rem;
+  }
+  @media (min-width:900px){
+    .skills{ grid-template-columns: repeat(3, 1fr); }
+  }
+  .skills .panel h3{ color:var(--cyan); margin-bottom:.5rem; font-size:1.05rem }
+  .skills ul{ list-style:none; color:#d8ecff }
+  .skills li{ padding:.3rem 0; border-bottom:1px dashed rgba(120,200,255,.1) }
+  .skills li:last-child{ border-bottom:none }
+
+  /* Projects showcase */
+  .projects{
+    display:grid; gap:1rem;
+  }
+  @media (min-width: 1000px){
+    .projects{
+      grid-template-columns: 1.2fr 1fr;
+      grid-auto-rows: 1fr;
+    }
+    .project--big{ grid-row: span 2; }
+  }
+  .project{
+    position:relative; overflow:hidden;
+    padding:1.25rem; border-radius:16px;
+    background:linear-gradient( to bottom right, rgba(0,35,60,.55), rgba(0,20,40,.45));
+    border:1px solid var(--outline);
+  }
+  .project h3{ color:#ccf6ff; margin-bottom:.35rem }
+  .project p{ color:#bfe8ff; font-size:.95rem; line-height:1.45 }
+  .project .links{ margin-top:.7rem; display:flex; gap:.75rem; flex-wrap:wrap }
+  .btn{
+    display:inline-block; padding:.55rem .85rem; border-radius:10px;
+    border:1px solid var(--outline);
+    color:#e9fbff; font-weight:600;
+    background:linear-gradient( to bottom, rgba(0,60,100,.35), rgba(0,30,60,.25));
+    transition:.2s transform, .2s box-shadow, .2s border-color;
+  }
+  .btn:hover{ transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,255,255,.15); border-color:#38e0ff }
+
+  /* Education timeline */
+  .timeline{
+    position:relative; padding-left:1.1rem;
+  }
+  .timeline::before{
+    content:""; position:absolute; left:.35rem; top:.25rem; bottom:.25rem;
+    width:2px; background:linear-gradient(to bottom, #0ff, transparent);
+    opacity:.6;
+  }
+  .edu{
+    position:relative; margin:1rem 0; padding-left:.75rem;
+  }
+  .edu::before{
+    content:""; position:absolute; left:-.2rem; top:.35rem;
+    width:8px; height:8px; border-radius:50%; background:#0ff; box-shadow:0 0 10px #0ff66f55;
+  }
+  .edu h4{ color:#dff9ff; margin-bottom:.2rem }
+  .edu p{ color:#c7e6ff; font-size:.95rem }
+
+  /* Contact strip */
+  .contact{
+    display:grid; gap:1rem;
+  }
+  @media (min-width:820px){ .contact{ grid-template-columns: repeat(4, 1fr); } }
+  .contact a{
+    display:flex; align-items:center; justify-content:center; gap:.6rem;
+    padding:1rem; border-radius:12px; text-align:center;
+    background:linear-gradient( to bottom right, rgba(0,35,60,.5), rgba(0,15,30,.45));
+    border:1px solid var(--outline); color:#e6fbff; font-weight:600;
+    transition: .2s transform, .2s box-shadow, .2s border-color;
+  }
+  .contact a:hover{ transform:translateY(-3px); box-shadow:0 10px 30px rgba(0,255,255,.18); border-color:#40d8ff }
+
+  /* Tiny accent line */
+  .accent-line{
+    height:1px; width:100%; background:linear-gradient(to right, transparent, #0ff, transparent);
+    opacity:.35; margin:1.2rem 0;
+  }
+</style>
+</head>
+<body>
+<div class="gradient"></div>
+<div id="particles-js"></div>
+
+<div class="container">
+  <!-- Intro -->
+  <section class="intro" data-aos="fade-up">
+    <h1>Keletso Mashabela — Data Scientist</h1>
+    <p>Machine Learning · Recommenders · EDA · SQL · Reporting</p>
+    <div class="pills" aria-label="quick summary">
+      <span class="pill">Open-source projects</span>
+      <span class="pill">Clean notebooks</span>
+      <span class="pill">End‑to‑end analytics</span>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" data-aos="fade-up">
+    <div class="panel">
+      <div class="section-title"><span>◆</span> Skills</div>
+      <div class="skills">
+        <div class="panel" data-aos="fade-up" data-aos-delay="50">
+          <h3>Programming & Databases</h3>
+          <ul>
+            <li>Python (Data Analysis, Scripting)</li>
+            <li>SQL · PostgreSQL · MySQL · SQLAlchemy</li>
+          </ul>
+        </div>
+        <div class="panel" data-aos="fade-up" data-aos-delay="100">
+          <h3>Data Analysis & Visualization</h3>
+          <ul>
+            <li>Excel (PivotTables, Power tools)</li>
+            <li>Power BI (DAX, Report Design)</li>
+            <li>Pandas · NumPy · Matplotlib · Seaborn</li>
+          </ul>
+        </div>
+        <div class="panel" data-aos="fade-up" data-aos-delay="150">
+          <h3>Machine Learning & Ops</h3>
+          <ul>
+            <li>scikit‑learn · Recommender Systems</li>
+            <li>Model Selection & Evaluation</li>
+            <li>Git & GitHub · Jupyter Notebook · Docker</li>
+            <li>Database Design · ETL Pipeline Development</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" data-aos="fade-up">
+    <div class="panel">
+      <div class="section-title"><span>◆</span> 🚀 Featured Projects</div>
+      <div class="projects">
+        <!-- Big #1 -->
+        <div class="project project--big" data-aos="zoom-in">
+          <h3>Netflix × IMDb Analysis</h3>
+          <p>Merged Netflix catalog with IMDb ratings. Explored genre trends, top titles by votes, and country patterns.</p>
+          <div class="links">
+            <a class="btn" href="https://github.com/Kay2304/netflix-imdb-analysis" target="_blank">Repository</a>
+          </div>
+        </div>
+        <!-- Big #2 -->
+        <div class="project project--big" data-aos="zoom-in" data-aos-delay="80">
+          <h3>Titanic — Survival Prediction (Kaggle)</h3>
+          <p>Classic Kaggle project: EDA, feature engineering, baseline models with evaluation.</p>
+          <div class="links">
+            <a class="btn" href="https://github.com/Kay2304/titanic-survival-prediction/blob/main/titanic-ml-project.ipynb" target="_blank">Notebook</a>
+            <a class="btn" href="https://github.com/Kay2304/titanic-survival-prediction" target="_blank">Repository</a>
+          </div>
+        </div>
+        <!-- Smaller projects -->
+        <div class="project" data-aos="fade-up" data-aos-delay="120">
+          <h3>MovieLens — User CF Recommender</h3>
+          <p>Collaborative Filtering recommender built on MovieLens; optimized memory use with sampling & sparse operations.</p>
+          <div class="links">
+            <a class="btn" href="https://github.com/Kay2304/movielens-user-cf-recommender/blob/main/Movie_Recommender_System.ipynb" target="_blank">Notebook</a>
+            <a class="btn" href="https://github.com/Kay2304/movielens-user-cf-recommender" target="_blank">Repository</a>
+          </div>
+        </div>
+        <div class="project" data-aos="fade-up" data-aos-delay="160">
+          <h3>March ML Mania 2025</h3>
+          <p>Practice repo for experiments, notes, and small ML utilities.</p>
+          <div class="links">
+            <a class="btn" href="https://github.com/Kay2304/march-ml-mania-2025/blob/main/march-machine-learning-mania.ipynb" target="_blank">Notebook</a>
+            <a class="btn" href="https://github.com/Kay2304/march-ml-mania-2025" target="_blank">Repository</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section id="education" data-aos="fade-up">
+    <div class="panel">
+      <div class="section-title"><span>◆</span> 🎓 Education & Certifications</div>
+      <div class="timeline">
+        <div class="edu" data-aos="fade-right">
+          <h4>Data Science Course — ALX & Explore AI <span style="color:#8fe8ff;">(May 2025)</span></h4>
+          <p>13‑month program covering statistics, ML, data visualization, and real-world projects.
+            <a class="btn" style="margin-left:.5rem" href="https://savanna.alxafrica.com/certificates/PC8mcpGxY9" target="_blank">Certificate</a>
+          </p>
+        </div>
+      </div>
+      <div class="accent-line"></div>
+      <p style="color:#bfe8ff">More details & all repos:
+        <a class="btn" href="https://github.com/Kay2304?tab=repositories" target="_blank">View GitHub</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" data-aos="fade-up">
+    <div class="panel">
+      <div class="section-title"><span>◆</span> 📫 Contact</div>
+      <div class="contact">
+        <a href="mailto:keletso.xavi2@gmail.com" target="_blank">Email</a>
+        <a href="https://github.com/Kay2304" target="_blank">GitHub</a>
+        <a href="https://www.kaggle.com/kay2304" target="_blank">Kaggle</a>
+        <a href="https://www.linkedin.com/in/keletso-mashabela-2a6a86248/" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- libs -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  // particles
+  particlesJS("particles-js", {
+    particles:{ number:{ value:120 }, color:{ value:"#0ff" }, shape:{ type:"circle" },
+      opacity:{ value:.45 }, size:{ value:2.5 },
+      line_linked:{ enable:true, distance:140, color:"#0ff", opacity:.25, width:1 },
+      move:{ enable:true, speed:1.6 } },
+    interactivity:{ events:{ onhover:{ enable:true, mode:"repulse" }, onclick:{ enable:true, mode:"push"} },
+      modes:{ repulse:{ distance:100 }, push:{ particles_nb:3 } } },
+    retina_detect:true
+  });
+  // AOS
+  AOS.init({ duration:800, easing:"ease-out-quart", once:true, offset: 40 });
+</script>
+<div id="particles-js"></div>
+</body>
+</html>
